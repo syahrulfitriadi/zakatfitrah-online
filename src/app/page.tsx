@@ -12,8 +12,8 @@ export default function Home() {
   const [totalInfaqBeras, setTotalInfaqBeras] = useState(0);
   const [totalInfaqUang, setTotalInfaqUang] = useState(0);
   
-  const [nominalBeras, setNominalBeras] = useState<number>(0);
-  const [nominalUang, setNominalUang] = useState<number>(0);
+  const [nominalBeras, setNominalBeras] = useState<number>(2.5);
+  const [nominalUang, setNominalUang] = useState<number>(35000);
   
   const [recentData, setRecentData] = useState<any[]>([]);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -41,10 +41,21 @@ export default function Home() {
   async function loadDashboardData() {
     if (!user) return;
     // Load Settings
-    const { data: pengaturan } = await supabase.from('pengaturan').select('*').eq('user_id', user.id).single();
-    if (pengaturan) {
+    const { data: pengaturan, error: pengError } = await supabase.from('pengaturan').select('*').eq('user_id', user.id).single();
+    if (pengaturan && !pengError) {
       setNominalBeras(pengaturan.nominal_beras);
       setNominalUang(pengaturan.nominal_uang);
+    } else {
+      // Pengaturan belum ada, buat default
+      const { data: newPeng } = await supabase.from('pengaturan').upsert({
+        user_id: user.id,
+        nominal_beras: 2.5,
+        nominal_uang: 35000,
+      }, { onConflict: 'user_id' }).select().single();
+      if (newPeng) {
+        setNominalBeras(newPeng.nominal_beras);
+        setNominalUang(newPeng.nominal_uang);
+      }
     }
 
     // Load Stats

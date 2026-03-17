@@ -24,6 +24,13 @@ export default function PengaturanPage() {
       if (data && !error) {
         setNominalBeras(data.nominal_beras);
         setNominalUang(data.nominal_uang);
+      } else {
+        // Baris pengaturan belum ada, buat baru
+        await supabase.from('pengaturan').upsert({
+          user_id: user!.id,
+          nominal_beras: 2.5,
+          nominal_uang: 35000,
+        }, { onConflict: 'user_id' });
       }
       setLoading(false);
     }
@@ -36,8 +43,12 @@ export default function PengaturanPage() {
 
     const { error } = await supabase
       .from('pengaturan')
-      .update({ nominal_beras: nominalBeras, nominal_uang: nominalUang, updated_at: new Date().toISOString() })
-      .eq('user_id', user!.id);
+      .upsert({
+        user_id: user!.id,
+        nominal_beras: nominalBeras,
+        nominal_uang: nominalUang,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id' });
 
     setLoading(false);
 
