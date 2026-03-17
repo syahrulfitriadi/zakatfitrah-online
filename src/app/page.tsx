@@ -47,11 +47,11 @@ export default function Home() {
       setNominalUang(pengaturan.nominal_uang);
     } else {
       // Pengaturan belum ada, buat default
-      const { data: newPeng } = await supabase.from('pengaturan').upsert({
+      const { data: newPeng } = await supabase.from('pengaturan').insert({
         user_id: user.id,
         nominal_beras: 2.5,
         nominal_uang: 35000,
-      }, { onConflict: 'user_id' }).select().single();
+      }).select().single();
       if (newPeng) {
         setNominalBeras(newPeng.nominal_beras);
         setNominalUang(newPeng.nominal_uang);
