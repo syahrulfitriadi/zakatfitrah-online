@@ -46,15 +46,16 @@ export default function Home() {
       setNominalBeras(pengaturan.nominal_beras);
       setNominalUang(pengaturan.nominal_uang);
     } else {
-      // Pengaturan belum ada, buat default
-      const { data: newPeng } = await supabase.from('pengaturan').insert({
-        user_id: user.id,
-        nominal_beras: 2.5,
-        nominal_uang: 35000,
-      }).select().single();
-      if (newPeng) {
-        setNominalBeras(newPeng.nominal_beras);
-        setNominalUang(newPeng.nominal_uang);
+      // Tidak ada baris untuk user ini, klaim baris default
+      const { data: claimed } = await supabase
+        .from('pengaturan')
+        .update({ user_id: user.id })
+        .is('user_id', null)
+        .select('nominal_beras, nominal_uang');
+
+      if (claimed && claimed.length > 0) {
+        setNominalBeras(claimed[0].nominal_beras);
+        setNominalUang(claimed[0].nominal_uang);
       }
     }
 
