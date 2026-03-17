@@ -93,29 +93,27 @@ export default function PenerimaanPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-5xl mx-auto">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Penerimaan Zakat</h1>
-          <p className="text-slate-500 mt-1">Form input data setoran zakat fitrah & infaq jamaah.</p>
-        </div>
+    <div className="flex flex-col gap-6 md:gap-8 max-w-5xl mx-auto">
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Penerimaan Zakat</h1>
+        <p className="text-sm md:text-base text-slate-500 mt-1">Form input data setoran zakat fitrah & infaq jamaah.</p>
       </div>
 
       {message && (
-        <div className={`p-4 rounded-xl border ${message.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'} flex items-center justify-between`}>
-          <span>{message.text}</span>
-          <button onClick={() => setMessage(null)} className="text-sm font-bold opacity-50 hover:opacity-100">✕</button>
+        <div className={`p-3 md:p-4 rounded-xl border ${message.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'} flex items-center justify-between`}>
+          <span className="text-sm md:text-base">{message.text}</span>
+          <button onClick={() => setMessage(null)} className="text-sm font-bold opacity-50 hover:opacity-100 ml-2 flex-shrink-0">✕</button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         {/* Form Input */}
-        <div className="lg:col-span-2 glass-card p-8">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="lg:col-span-2 glass-card p-4 md:p-8">
+          <form className="space-y-5 md:space-y-6" onSubmit={handleSubmit}>
             {/* Informasi Penyetor */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-bold text-slate-800 border-b pb-2">Informasi Penyetor</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-3 md:space-y-4">
+              <h2 className="text-base md:text-lg font-bold text-slate-800 border-b pb-2">Informasi Penyetor</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Nama Penyetor (KK)</label>
                   <input 
@@ -143,9 +141,9 @@ export default function PenerimaanPage() {
             </div>
 
             {/* Detail Setoran Zakat */}
-            <div className="space-y-4 pt-4 border-t">
-              <h2 className="text-lg font-bold text-slate-800 pb-2">Setoran Zakat</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-3 md:space-y-4 pt-4 border-t">
+              <h2 className="text-base md:text-lg font-bold text-slate-800 pb-2">Setoran Zakat</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Bentuk Setoran</label>
                   <div className="flex gap-2">
@@ -188,14 +186,14 @@ export default function PenerimaanPage() {
             </div>
 
             {/* Tambahan Infaq Jika Ada */}
-            <div className={`space-y-4 pt-4 border-t transition-all ${typeof jumlahInfaq === 'number' && jumlahInfaq > 0 ? 'bg-teal-50/50 p-4 rounded-xl border-teal-100' : ''}`}>
-               <div className="flex items-center gap-2 pb-2">
-                 <h2 className="text-lg font-bold text-slate-800">Infaq (Opsional / Kelebihan Zakat)</h2>
+            <div className={`space-y-3 md:space-y-4 pt-4 border-t transition-all ${typeof jumlahInfaq === 'number' && jumlahInfaq > 0 ? 'bg-teal-50/50 p-3 md:p-4 rounded-xl border-teal-100' : ''}`}>
+               <div className="flex flex-wrap items-center gap-2 pb-2">
+                 <h2 className="text-base md:text-lg font-bold text-slate-800">Infaq (Opsional / Kelebihan Zakat)</h2>
                  {typeof jumlahInfaq === 'number' && jumlahInfaq > 0 && (
                    <span className="px-2 py-1 bg-teal-100 text-teal-700 text-xs rounded-full font-bold">Auto-Calculated</span>
                  )}
                </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Bentuk Infaq</label>
                     <div className="flex gap-2">
@@ -231,7 +229,7 @@ export default function PenerimaanPage() {
                </div>
             </div>
 
-            <div className="pt-6">
+            <div className="pt-4 md:pt-6">
                <button type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-70">
                  {isSubmitting ? 'Menyimpan...' : 'Simpan Data Penerimaan'}
                </button>
@@ -241,14 +239,14 @@ export default function PenerimaanPage() {
 
         {/* Ringkasan Setoran (Ticket) */}
         <div>
-           <div className="glass-card p-6 bg-gradient-to-b from-slate-800 to-slate-900 border-none text-white sticky top-24 shadow-2xl">
+           <div className="glass-card p-5 md:p-6 bg-gradient-to-b from-slate-800 to-slate-900 border-none text-white lg:sticky lg:top-24 shadow-2xl">
               <div className="text-center pb-4 border-b border-white/20">
                  <h3 className="text-sm font-medium text-emerald-400">Ringkasan Bukti Setor</h3>
-                 <p className="font-bold text-xl mt-1">{nama || "Nama Jamaah"}</p>
+                 <p className="font-bold text-lg md:text-xl mt-1">{nama || "Nama Jamaah"}</p>
                  <p className="text-slate-400 text-sm mt-1">{jiwa ? `${jiwa} Jiwa` : "- Jiwa"}</p>
               </div>
 
-              <div className="py-4 space-y-4 border-b border-white/20">
+              <div className="py-4 space-y-3 md:space-y-4 border-b border-white/20">
                  <div className="flex justify-between items-center text-sm">
                     <span className="text-slate-300">Wajib Zakat ({jenisZakat})</span>
                     <span className="font-bold">

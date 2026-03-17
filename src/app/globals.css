@@ -10,10 +10,17 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: Arial, Helvetica, sans-serif;
+    -webkit-tap-highlight-color: transparent;
   }
 
   button, [role="button"] {
     cursor: pointer;
+  }
+
+
+
+  input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea, select {
+    font-size: 16px; /* Prevents iOS zoom on focus */
   }
 }
 
@@ -32,5 +39,14 @@
 
   .btn-secondary {
     @apply px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 font-medium rounded-xl shadow-sm border border-slate-200 transition-all active:scale-95 text-center flex items-center justify-center gap-2;
+  }
+
+  /* Mobile card view for table rows */
+  .mobile-data-card {
+    @apply bg-white rounded-xl border border-slate-100 p-4 space-y-2 shadow-sm;
+  }
+
+  .mobile-data-label {
+    @apply text-[11px] font-semibold text-slate-400 uppercase tracking-wider;
   }
 }

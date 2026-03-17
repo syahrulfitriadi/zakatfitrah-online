@@ -244,27 +244,141 @@ export default function RekapPage() {
     }
   };
 
-  return (
-    <div className="flex flex-col gap-8 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+  // Mobile card for editing
+  const renderMobileEditCard = (row: any, index: number) => (
+    <div key={row.id} className="mobile-data-card bg-amber-50/50 border-amber-200">
+      <div className="space-y-3">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Rekapitulasi Penerimaan</h1>
-          <p className="text-slate-500 mt-1">Laporan detail data penerimaan Zakat dan Infaq jamaah.</p>
+          <p className="mobile-data-label">Nama Jamaah</p>
+          <input type="text" className="premium-input text-sm py-2" value={editForm.nama_penyetor} onChange={e => setEditForm({...editForm, nama_penyetor: e.target.value})} />
         </div>
-        <div className="flex flex-wrap gap-3">
-          <button onClick={exportPDF} className="btn-secondary flex items-center gap-2 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200 cursor-pointer">
+        <div>
+          <p className="mobile-data-label">Jumlah Jiwa</p>
+          <input type="number" min="1" className="premium-input text-sm py-2 w-24" value={editForm.jumlah_jiwa} onChange={e => setEditForm({...editForm, jumlah_jiwa: parseInt(e.target.value) || 0})} />
+        </div>
+        <div>
+          <p className="mobile-data-label">Zakat</p>
+          <div className="flex gap-1 mb-2">
+            <button type="button" onClick={() => setEditForm({...editForm, jenis_zakat: 'Beras'})} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${editForm.jenis_zakat === 'Beras' ? 'bg-emerald-600 text-white' : 'bg-white border text-slate-500'}`}>Beras</button>
+            <button type="button" onClick={() => setEditForm({...editForm, jenis_zakat: 'Uang'})} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${editForm.jenis_zakat === 'Uang' ? 'bg-emerald-600 text-white' : 'bg-white border text-slate-500'}`}>Uang</button>
+          </div>
+          <input type="number" step="any" className="premium-input text-sm py-2" value={editForm.jumlah_zakat} onChange={e => setEditForm({...editForm, jumlah_zakat: parseFloat(e.target.value) || 0})} />
+        </div>
+        <div>
+          <p className="mobile-data-label">Infaq</p>
+          <div className="flex gap-1 mb-2">
+            <button type="button" onClick={() => setEditForm({...editForm, jenis_infaq: 'Beras'})} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${editForm.jenis_infaq === 'Beras' ? 'bg-teal-600 text-white' : 'bg-white border text-slate-500'}`}>Beras</button>
+            <button type="button" onClick={() => setEditForm({...editForm, jenis_infaq: 'Uang'})} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${editForm.jenis_infaq === 'Uang' ? 'bg-teal-600 text-white' : 'bg-white border text-slate-500'}`}>Uang</button>
+          </div>
+          <input type="number" step="any" className="premium-input text-sm py-2" value={editForm.jumlah_infaq} onChange={e => setEditForm({...editForm, jumlah_infaq: parseFloat(e.target.value) || 0})} />
+        </div>
+        <div className="flex gap-2 pt-2">
+          <button onClick={handleSaveEdit} className="flex-1 py-2.5 bg-emerald-600 text-white text-sm rounded-xl hover:bg-emerald-700 transition-colors font-medium">Simpan</button>
+          <button onClick={() => setEditingId(null)} className="flex-1 py-2.5 bg-slate-200 text-slate-600 text-sm rounded-xl hover:bg-slate-300 transition-colors font-medium">Batal</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Mobile card for display
+  const renderMobileCard = (row: any, index: number) => (
+    <div key={row.id} className="mobile-data-card">
+      <div className="flex justify-between items-start">
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold text-slate-800 text-sm">{row.nama_penyetor}</p>
+          <p className="text-xs text-slate-500 mt-0.5">{formatWaktu(row.created_at)}</p>
+        </div>
+        <span className="text-xs text-slate-400 flex-shrink-0 ml-2">#{(page - 1) * itemsPerPage + index + 1}</span>
+      </div>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 pt-2">
+        <div>
+          <span className="text-[11px] text-slate-400">Jiwa: </span>
+          <span className="text-sm font-medium text-slate-700">{row.jumlah_jiwa}</span>
+        </div>
+        <div>
+          <span className="text-[11px] text-slate-400">Zakat: </span>
+          <span className="text-sm font-semibold text-emerald-600">
+            {row.jenis_zakat === 'Beras' ? `${row.jumlah_zakat} Kg` : `Rp ${row.jumlah_zakat.toLocaleString()}`}
+          </span>
+        </div>
+        {row.jumlah_infaq > 0 && (
+          <div>
+            <span className="text-[11px] text-slate-400">Infaq: </span>
+            <span className="text-sm font-semibold text-teal-600">
+              {row.jenis_infaq === 'Beras' ? `${row.jumlah_infaq} Kg` : `Rp ${row.jumlah_infaq.toLocaleString()}`}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="flex gap-2 pt-2 border-t border-slate-100 mt-2">
+        <button onClick={() => startEdit(row)} className="flex-1 py-2 text-xs bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 border border-amber-200 transition-colors font-medium">✏️ Edit</button>
+        <button onClick={() => handleDeleteRow(row.id, row.nama_penyetor)} className="flex-1 py-2 text-xs bg-red-50 text-red-600 rounded-lg hover:bg-red-100 border border-red-200 transition-colors font-medium">🗑 Hapus</button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col gap-6 md:gap-8 max-w-7xl mx-auto">
+      <div className="flex flex-col gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Rekapitulasi Penerimaan</h1>
+          <p className="text-sm md:text-base text-slate-500 mt-1">Laporan detail data penerimaan Zakat dan Infaq jamaah.</p>
+        </div>
+        <div className="flex flex-wrap gap-2 md:gap-3">
+          <button onClick={exportPDF} className="btn-secondary flex items-center gap-2 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200 cursor-pointer text-sm flex-1 sm:flex-none">
              📄 Export PDF
           </button>
-          <button onClick={exportExcel} className="btn-secondary flex items-center gap-2 text-teal-700 hover:bg-teal-50 hover:border-teal-200 cursor-pointer">
+          <button onClick={exportExcel} className="btn-secondary flex items-center gap-2 text-teal-700 hover:bg-teal-50 hover:border-teal-200 cursor-pointer text-sm flex-1 sm:flex-none">
              📊 Export Excel
           </button>
-          <button onClick={handleClearData} className="btn-secondary flex items-center gap-2 text-red-600 hover:bg-red-50 hover:border-red-200 cursor-pointer">
+          <button onClick={handleClearData} className="btn-secondary flex items-center gap-2 text-red-600 hover:bg-red-50 hover:border-red-200 cursor-pointer text-sm w-full sm:w-auto">
              🗑️ Bersihkan Data
           </button>
         </div>
       </div>
 
-      <div className="glass-card overflow-hidden relative min-h-[400px]">
+      {/* Summary Cards (always visible) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="bg-emerald-50 rounded-xl p-3 text-center border border-emerald-100">
+          <p className="text-[11px] text-emerald-600 font-medium">Zakat Beras</p>
+          <p className="text-lg font-bold text-emerald-700">{totalZakatBeras} <span className="text-xs font-medium">Kg</span></p>
+        </div>
+        <div className="bg-emerald-50 rounded-xl p-3 text-center border border-emerald-100">
+          <p className="text-[11px] text-emerald-600 font-medium">Zakat Uang</p>
+          <p className="text-lg font-bold text-emerald-700">Rp {totalZakatUang.toLocaleString()}</p>
+        </div>
+        <div className="bg-teal-50 rounded-xl p-3 text-center border border-teal-100">
+          <p className="text-[11px] text-teal-600 font-medium">Infaq Beras</p>
+          <p className="text-lg font-bold text-teal-700">{totalInfaqBeras} <span className="text-xs font-medium">Kg</span></p>
+        </div>
+        <div className="bg-teal-50 rounded-xl p-3 text-center border border-teal-100">
+          <p className="text-[11px] text-teal-600 font-medium">Infaq Uang</p>
+          <p className="text-lg font-bold text-teal-700">Rp {totalInfaqUang.toLocaleString()}</p>
+        </div>
+      </div>
+
+      {/* ===== MOBILE CARD VIEW (hidden on md+) ===== */}
+      <div className="md:hidden relative">
+        {loading && (
+          <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 flex items-center justify-center min-h-[200px]">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+          </div>
+        )}
+        {data.length === 0 && !loading ? (
+          <div className="text-center py-12 text-slate-400">Belum ada data penerimaan zakat.</div>
+        ) : (
+          <div className="space-y-3">
+            {data.map((row, index) =>
+              editingId === row.id
+                ? renderMobileEditCard(row, index)
+                : renderMobileCard(row, index)
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ===== DESKTOP TABLE VIEW (hidden on mobile) ===== */}
+      <div className="hidden md:block glass-card overflow-hidden relative min-h-[400px]">
          {loading && (
            <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 flex items-center justify-center">
              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
@@ -355,43 +469,25 @@ export default function RekapPage() {
                     ))
                   )}
                </tbody>
-               <tfoot className="bg-slate-50/80 border-t border-slate-200">
-                  <tr>
-                     <td colSpan={3} className="p-4 font-bold text-slate-800 text-right">TOTAL SEMUA DATA</td>
-                     <td className="p-4 text-right">
-                        <div className="flex flex-col gap-1 items-end">
-                          <span className="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full text-xs">{totalZakatBeras} Kg</span>
-                          <span className="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full text-xs">Rp {totalZakatUang.toLocaleString()}</span>
-                        </div>
-                     </td>
-                     <td className="p-4 text-right">
-                        <div className="flex flex-col gap-1 items-end">
-                          <span className="font-bold text-teal-700 bg-teal-100 px-3 py-1 rounded-full text-xs">{totalInfaqBeras} Kg</span>
-                          <span className="font-bold text-teal-700 bg-teal-100 px-3 py-1 rounded-full text-xs">Rp {totalInfaqUang.toLocaleString()}</span>
-                        </div>
-                     </td>
-                     <td></td>
-                     <td></td>
-                  </tr>
-               </tfoot>
             </table>
          </div>
       </div>
       
-      <div className="flex justify-between items-center text-sm text-slate-500">
+      {/* Pagination */}
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-slate-500">
          <p>Menampilkan {data.length > 0 ? (page - 1) * itemsPerPage + 1 : 0}-{Math.min(page * itemsPerPage, totalItems)} dari {totalItems} data</p>
          <div className="flex gap-2">
             <button 
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1 || loading}
-              className="px-3 py-1 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50"
+              className="px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 text-sm"
             >
-              Sebelumnnya
+              Sebelumnya
             </button>
             <button 
               onClick={() => setPage(p => p + 1)}
               disabled={page * itemsPerPage >= totalItems || loading}
-              className="px-3 py-1 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50"
+              className="px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 text-sm"
             >
               Selanjutnya
             </button>

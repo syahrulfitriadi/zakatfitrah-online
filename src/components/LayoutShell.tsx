@@ -15,7 +15,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
       {showSidebar ? (
         <div className="flex min-h-screen">
           <Sidebar />
-          <main className="flex-1 w-full max-w-6xl p-8 overflow-y-auto">
+          <main className="flex-1 w-full max-w-6xl p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto">
             {children}
           </main>
         </div>

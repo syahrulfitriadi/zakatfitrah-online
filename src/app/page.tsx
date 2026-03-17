@@ -89,68 +89,68 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6 md:gap-8">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="flex flex-col gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Dashboard Zakat Fitrah</h1>
-          <p className="text-slate-500 mt-1">Sistem informasi penerimaan zakat {profile?.nama_masjid || ''}.</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Dashboard Zakat Fitrah</h1>
+          <p className="text-sm md:text-base text-slate-500 mt-1">Sistem informasi penerimaan zakat {profile?.nama_masjid || ''}.</p>
         </div>
-        <div className="flex gap-3">
-          <button onClick={copyPantauLink} className="btn-secondary text-sm">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <button onClick={copyPantauLink} className="btn-secondary text-sm w-full sm:w-auto">
             {linkCopied ? '✅ Link Tersalin!' : '🔗 Salin Link Pantau'}
           </button>
-          <Link href="/penerimaan" className="btn-primary">
+          <Link href="/penerimaan" className="btn-primary w-full sm:w-auto">
             + Tambah Penerimaan
           </Link>
-          <Link href="/rekap" className="btn-secondary">
+          <Link href="/rekap" className="btn-secondary w-full sm:w-auto">
             Lihat Laporan
           </Link>
         </div>
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass-card p-6 border-l-4 border-l-emerald-500">
-          <h3 className="text-sm font-medium text-slate-500 mb-1">Total Zakat Beras</h3>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-slate-800">{totalZakatBeras}</span>
-            <span className="text-sm text-slate-500 font-medium">Kg</span>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        <div className="glass-card p-4 md:p-6 border-l-4 border-l-emerald-500">
+          <h3 className="text-xs md:text-sm font-medium text-slate-500 mb-1">Total Zakat Beras</h3>
+          <div className="flex items-baseline gap-1 md:gap-2">
+            <span className="text-xl md:text-3xl font-bold text-slate-800">{totalZakatBeras}</span>
+            <span className="text-xs md:text-sm text-slate-500 font-medium">Kg</span>
           </div>
         </div>
         
-        <div className="glass-card p-6 border-l-4 border-l-emerald-500">
-          <h3 className="text-sm font-medium text-slate-500 mb-1">Total Zakat Uang</h3>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-slate-800">Rp {totalZakatUang.toLocaleString()}</span>
+        <div className="glass-card p-4 md:p-6 border-l-4 border-l-emerald-500">
+          <h3 className="text-xs md:text-sm font-medium text-slate-500 mb-1">Total Zakat Uang</h3>
+          <div className="flex items-baseline gap-1 md:gap-2">
+            <span className="text-lg md:text-3xl font-bold text-slate-800">Rp {totalZakatUang.toLocaleString()}</span>
           </div>
         </div>
 
-        <div className="glass-card p-6 border-l-4 border-l-teal-500">
-          <h3 className="text-sm font-medium text-slate-500 mb-1">Total Infaq Beras</h3>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-slate-800">{totalInfaqBeras}</span>
-            <span className="text-sm text-slate-500 font-medium">Kg</span>
+        <div className="glass-card p-4 md:p-6 border-l-4 border-l-teal-500">
+          <h3 className="text-xs md:text-sm font-medium text-slate-500 mb-1">Total Infaq Beras</h3>
+          <div className="flex items-baseline gap-1 md:gap-2">
+            <span className="text-xl md:text-3xl font-bold text-slate-800">{totalInfaqBeras}</span>
+            <span className="text-xs md:text-sm text-slate-500 font-medium">Kg</span>
           </div>
         </div>
 
-        <div className="glass-card p-6 border-l-4 border-l-teal-500">
-          <h3 className="text-sm font-medium text-slate-500 mb-1">Total Infaq Uang</h3>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-slate-800">Rp {totalInfaqUang.toLocaleString()}</span>
+        <div className="glass-card p-4 md:p-6 border-l-4 border-l-teal-500">
+          <h3 className="text-xs md:text-sm font-medium text-slate-500 mb-1">Total Infaq Uang</h3>
+          <div className="flex items-baseline gap-1 md:gap-2">
+            <span className="text-lg md:text-3xl font-bold text-slate-800">Rp {totalInfaqUang.toLocaleString()}</span>
           </div>
         </div>
       </div>
 
       {/* Quick Actions & Info */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="glass-card p-8 lg:col-span-2 relative overflow-hidden">
+        <div className="glass-card p-5 md:p-8 lg:col-span-2 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
-          <h2 className="text-xl font-bold text-slate-800 mb-4 relative z-10">Penerimaan Terakhir</h2>
+          <h2 className="text-lg md:text-xl font-bold text-slate-800 mb-4 relative z-10">Penerimaan Terakhir</h2>
           
           {recentData.length === 0 ? (
-            <div className="bg-white/50 rounded-xl p-8 border border-slate-100 flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400 text-2xl">
+            <div className="bg-white/50 rounded-xl p-6 md:p-8 border border-slate-100 flex flex-col items-center justify-center text-center">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400 text-2xl">
                 📝
               </div>
               <p className="text-slate-500 font-medium">Belum ada data penerimaan.</p>
@@ -159,13 +159,13 @@ export default function Home() {
           ) : (
             <div className="space-y-3 relative z-10">
               {recentData.map((trx) => (
-                <div key={trx.id} className="bg-white/60 hover:bg-white p-4 rounded-xl border border-slate-100 flex justify-between items-center transition-all">
-                  <div>
-                    <p className="font-semibold text-slate-800">{trx.nama_penyetor} <span className="text-slate-400 text-sm font-normal">({trx.jumlah_jiwa} jiwa)</span></p>
-                    <p className="text-xs text-slate-500 mt-1">{new Date(trx.created_at).toLocaleString('id-ID')}</p>
+                <div key={trx.id} className="bg-white/60 hover:bg-white p-3 md:p-4 rounded-xl border border-slate-100 flex justify-between items-center transition-all gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-slate-800 text-sm md:text-base truncate">{trx.nama_penyetor} <span className="text-slate-400 text-xs md:text-sm font-normal">({trx.jumlah_jiwa} jiwa)</span></p>
+                    <p className="text-xs text-slate-500 mt-0.5">{new Date(trx.created_at).toLocaleString('id-ID')}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-emerald-600">{trx.jenis_zakat === 'Beras' ? `${trx.jumlah_zakat} Kg` : `Rp ${trx.jumlah_zakat.toLocaleString()}`}</p>
+                  <div className="text-right flex-shrink-0">
+                    <p className="font-bold text-emerald-600 text-sm md:text-base">{trx.jenis_zakat === 'Beras' ? `${trx.jumlah_zakat} Kg` : `Rp ${trx.jumlah_zakat.toLocaleString()}`}</p>
                     <span className="text-xs font-medium text-slate-400">Zakat {trx.jenis_zakat}</span>
                   </div>
                 </div>
@@ -174,13 +174,13 @@ export default function Home() {
           )}
         </div>
 
-        <div className="glass-card p-8 relative overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-700 text-white border-none">
+        <div className="glass-card p-5 md:p-8 relative overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-700 text-white border-none">
           <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full blur-xl -ml-10 -mb-10"></div>
           
-          <h2 className="text-xl font-bold mb-6 relative z-10">Pengaturan Saat Ini</h2>
+          <h2 className="text-lg md:text-xl font-bold mb-4 md:mb-6 relative z-10">Pengaturan Saat Ini</h2>
           
-          <div className="space-y-4 relative z-10">
+          <div className="space-y-3 md:space-y-4 relative z-10">
             <div className="bg-white/10 rounded-lg p-3">
               <div className="text-emerald-100 text-xs mb-1">Zakat per Jiwa (Beras)</div>
               <div className="font-semibold">{nominalBeras} Kg</div>
@@ -191,7 +191,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-6 relative z-10">
+          <div className="mt-4 md:mt-6 relative z-10">
             <Link href="/pengaturan" className="text-sm text-emerald-100 hover:text-white font-medium flex items-center gap-1">
               Ubah Pengaturan →
             </Link>

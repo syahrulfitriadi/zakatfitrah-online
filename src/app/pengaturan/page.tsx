@@ -91,19 +91,17 @@ export default function PengaturanPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-3xl mx-auto">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Pengaturan Aplikasi</h1>
-          <p className="text-slate-500 mt-1">Konfigurasi nominal standar Zakat Fitrah per jiwa.</p>
-        </div>
+    <div className="flex flex-col gap-6 md:gap-8 max-w-3xl mx-auto">
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Pengaturan Aplikasi</h1>
+        <p className="text-sm md:text-base text-slate-500 mt-1">Konfigurasi nominal standar Zakat Fitrah per jiwa.</p>
       </div>
 
-      <div className="glass-card p-8">
-        <form onSubmit={handleSave} className="space-y-6">
-          <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 mb-6">
-            <h3 className="text-emerald-800 font-semibold mb-1">Informasi</h3>
-            <p className="text-emerald-700 text-sm">
+      <div className="glass-card p-4 md:p-8">
+        <form onSubmit={handleSave} className="space-y-5 md:space-y-6">
+          <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 md:p-4 mb-4 md:mb-6">
+            <h3 className="text-emerald-800 font-semibold mb-1 text-sm md:text-base">Informasi</h3>
+            <p className="text-emerald-700 text-xs md:text-sm">
               Nominal yang diatur di sini akan digunakan sebagai standar perhitungan otomatis
               kewajiban zakat pada halaman Penerimaan. Pastikan nominal sesuai dengan ketetapan
               Baznas atau kesepakatan pengurus masjid tahun ini.
@@ -128,7 +126,7 @@ export default function PengaturanPage() {
                    <span className="text-slate-400 font-medium">Kg</span>
                 </div>
               </div>
-              <p className="text-sm text-slate-500 mt-1">Standar umum: 2.5 Kg atau 2.7 Kg</p>
+              <p className="text-xs md:text-sm text-slate-500 mt-1">Standar umum: 2.5 Kg atau 2.7 Kg</p>
             </div>
 
             <div className="pt-4">
@@ -147,16 +145,16 @@ export default function PengaturanPage() {
                   required
                 />
               </div>
-              <p className="text-sm text-slate-500 mt-1">Sesuai ketetapan harga beras di daerah setempat (Misal: 35.000, 40.000, 45.000)</p>
+              <p className="text-xs md:text-sm text-slate-500 mt-1">Sesuai ketetapan harga beras di daerah setempat (Misal: 35.000, 40.000, 45.000)</p>
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-100 flex items-center gap-4">
-            <button type="submit" disabled={loading} className="btn-primary flex-1 disabled:opacity-70">
+          <div className="pt-4 md:pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-3 md:gap-4">
+            <button type="submit" disabled={loading} className="btn-primary w-full sm:flex-1 disabled:opacity-70">
               {loading ? 'Menyimpan...' : 'Simpan Pengaturan'}
             </button>
             {isSaved && (
-              <span className="text-emerald-600 font-medium flex items-center gap-1 animate-pulse">
+              <span className="text-emerald-600 font-medium flex items-center gap-1 animate-pulse text-sm">
                 ✓ Berhasil disimpan
               </span>
             )}
