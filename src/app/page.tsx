@@ -41,23 +41,18 @@ export default function Home() {
   async function loadDashboardData() {
     if (!user) return;
     // Load Settings
-    const { data: pengaturan, error: pengError } = await supabase.from('pengaturan').select('*').eq('user_id', user.id).single();
-    if (pengaturan && !pengError) {
+    const { data: pengaturan } = await supabase
+      .from('pengaturan')
+      .select('nominal_beras, nominal_uang')
+      .eq('user_id', user.id)
+      .limit(1)
+      .maybeSingle();
+    
+    if (pengaturan) {
       setNominalBeras(pengaturan.nominal_beras);
       setNominalUang(pengaturan.nominal_uang);
-    } else {
-      // Tidak ada baris untuk user ini, klaim baris default
-      const { data: claimed } = await supabase
-        .from('pengaturan')
-        .update({ user_id: user.id })
-        .is('user_id', null)
-        .select('nominal_beras, nominal_uang');
-
-      if (claimed && claimed.length > 0) {
-        setNominalBeras(claimed[0].nominal_beras);
-        setNominalUang(claimed[0].nominal_uang);
-      }
     }
+
 
     // Load Stats
     const { data: allPenerimaan } = await supabase.from('penerimaan_zakat').select('*').eq('user_id', user.id);

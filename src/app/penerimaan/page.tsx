@@ -26,13 +26,14 @@ export default function PenerimaanPage() {
   useEffect(() => {
     if (!user) return;
     async function fetchPengaturan() {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('pengaturan')
         .select('nominal_beras, nominal_uang')
         .eq('user_id', user!.id)
-        .single();
+        .limit(1)
+        .maybeSingle();
       
-      if (data && !error) {
+      if (data) {
         setNominalBeras(data.nominal_beras);
         setNominalUang(data.nominal_uang);
       }

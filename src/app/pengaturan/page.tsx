@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/context/AuthContext";
 
@@ -15,28 +14,16 @@ export default function PengaturanPage() {
   useEffect(() => {
     if (!user) return;
     async function fetchPengaturan() {
-      // Coba ambil pengaturan milik user ini
       const { data } = await supabase
         .from('pengaturan')
         .select('nominal_beras, nominal_uang')
         .eq('user_id', user!.id)
-        .single();
+        .limit(1)
+        .maybeSingle();
       
       if (data) {
         setNominalBeras(data.nominal_beras);
         setNominalUang(data.nominal_uang);
-      } else {
-        // Tidak ada baris untuk user ini. Klaim baris default (user_id kosong)
-        const { data: claimed } = await supabase
-          .from('pengaturan')
-          .update({ user_id: user!.id })
-          .is('user_id', null)
-          .select('nominal_beras, nominal_uang');
-
-        if (claimed && claimed.length > 0) {
-          setNominalBeras(claimed[0].nominal_beras);
-          setNominalUang(claimed[0].nominal_uang);
-        }
       }
       setLoading(false);
     }
@@ -45,49 +32,47 @@ export default function PengaturanPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
     setLoading(true);
 
-    // Coba update baris milik user ini
-    const { data: updated, error } = await supabase
+    // UPDATE semua baris milik user ini (termasuk duplikat)
+    const { data: updated, error: updateError } = await supabase
       .from('pengaturan')
       .update({
         nominal_beras: nominalBeras,
         nominal_uang: nominalUang,
         updated_at: new Date().toISOString(),
       })
-      .eq('user_id', user!.id)
+      .eq('user_id', user.id)
       .select();
 
-    // Jika tidak ada baris yang ter-update, klaim baris default
-    if (!error && (!updated || updated.length === 0)) {
-      const { error: claimError } = await supabase
-        .from('pengaturan')
-        .update({
-          user_id: user!.id,
-          nominal_beras: nominalBeras,
-          nominal_uang: nominalUang,
-          updated_at: new Date().toISOString(),
-        })
-        .is('user_id', null);
-      
+    if (updateError) {
       setLoading(false);
-      if (!claimError) {
-        setIsSaved(true);
-        setTimeout(() => setIsSaved(false), 3000);
-      } else {
-        alert("Gagal menyimpan pengaturan: " + claimError.message);
-      }
+      alert("Gagal menyimpan pengaturan: " + updateError.message);
       return;
     }
 
-    setLoading(false);
+    // Jika tidak ada baris yang ter-update, INSERT baris baru
+    if (!updated || updated.length === 0) {
+      const { error: insertError } = await supabase
+        .from('pengaturan')
+        .insert({
+          user_id: user.id,
+          nominal_beras: nominalBeras,
+          nominal_uang: nominalUang,
+        });
 
-    if (!error) {
-      setIsSaved(true);
-      setTimeout(() => setIsSaved(false), 3000);
+      setLoading(false);
+      if (insertError) {
+        alert("Gagal menyimpan pengaturan: " + insertError.message);
+        return;
+      }
     } else {
-      alert("Gagal menyimpan pengaturan: " + error.message);
+      setLoading(false);
     }
+
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 3000);
   };
 
   return (

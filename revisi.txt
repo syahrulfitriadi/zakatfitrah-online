@@ -1,0 +1,82 @@
+catatan revisi dan perbaikan
+1. bisa tidak menu dashboard, penerimaan, rekapitulasi dan pengaturan di taruh di samping kiri
+2. lalu apa itu menu-menu yang muncul? kok kayak teknis dan asing. bisa kamu perbaiki
+3. bagaimana cara untuk clear atau membersihkan data inputan yang ada di rekapitulasi?
+
+catatan revisi dan perbaikan
+1. dropdown menu ganti ke button saja. baik di zakat maupun infaq. biar tidak kebanyakan klik.
+2. tambahkan fitur collapse pada menu bar kiri.
+3. ganti icon nya dengan icon masjid dan ubah judul aplikasinya jadi Zakat Fitrah Online
+by Masjid Nurul Huda - Depok, Siraman
+
+catatan revisi
+1. muncul eror ketika saya mau hapus data menu reakapitulasi
+2. ketika side bar di collapse tidak bisa dikembalikan lagi.
+3. ganti icon sidebarnya, kurang elegan. yang minimalist saja
+
+jadi semisal nii, aplikasi aku deploy. aku buka website dan input data. lalu diwaktu yang bersamaan dimasjid lain, ada orang yang akses juga link website ku dan makai aplikasi itu, kira - kira datanya gimana? berarti kecampur dong?
+
+jangan eksekusi dulu. bisa tidak ada fitur dimana orang luar dapat monitoring rekapitulasi data realtime, namun mereka tidak bisa akses hapus data ya, takutnya kalau aku kasih link buat monitornya tapi mereka malah pencet hapus data, weleh ya kehapus datanya
+
+halaman rekapitulasi tidak realtime ya, memang apa kendalanya kalau dibuat realtime?
+
+untuk saat ini mungkin oke deh untuk pengguna tunggal dulu, karena niatku nantinya, aplikasi ini akan ku publish, namun karena keterbatasan waktu mungkin. jadi ini saja sudah cukup
+
+catatan revisi
+1. bisa ndak kamu tambahkan fitur edit, seperti edit nama, edit besaran zakat dan infaq yang sudah terinputkan. karena saya lihat, ketika kita salah menginputkan nama semisal, tidak ada fitur untuk mengedit atau menghapus data di rekapitulasinya. kalau mau hapus malah hapus semua data
+
+saya ingin membuat fitur daftar dan login. pada menu daftar user diminta untuk memasukan nama masjid yang nantinya teks yang berhubungan dengan masjid di aplikasi akan berganti sesuai dengan nama masjid yang diinputkan.
+
+apakah fitur ini memungkinkan untuk diimpelentasikan di projek ini dan seberapa sulit? jangan ekskusi dulu 
+
+revisi dan perbaikan
+1. pada ringkasan bukti setor, nama masjid yang ada dibawah masih belum dinamis.
+2. pada saat user mendaftar dan login. tulisan nama masjid akan ter - (tidak ada) namun ketika pindah windows, semisal dari browser terus pindah buka aplikasi lain, kemudian kembali lagi maka tulisan masjid baru muncul. atau ketika halaman di refresh baru akan muncul. namun ketika sudah memiliki akun masalah ini tidak tejadi
+
+revisi dan perbaikan
+untuk alamatnya taruh saja dibaris yang sama dengan nama masjid dengan format "Nama Masjid - Alamat Masjid"
+
+revisi dan perbaikan
+1. halaman pantau rekapitulasi belum realtime (masih perlu refresh)
+2. animasi kursor tidak berubah saat hover ke menu cetak/export pdf excel dan juga hapus (biasanya berubah bentuk tangan, karena tombol/ bagian tersebut adalah link)
+
+key.txt
+revisi.txt
+zakat fitrah app.txt
+
+ketika aku coba deploy di vercel eror ternyata
+13:17:38.586 
+Error: supabaseUrl is required.
+13:17:38.586 
+    at <unknown> (.next/server/chunks/ssr/_afcaccde._.js:40:43440)
+13:17:38.586 
+    at new ce (.next/server/chunks/ssr/_afcaccde._.js:40:43691)
+13:17:38.586 
+    at module evaluation (.next/server/chunks/ssr/_afcaccde._.js:40:48029)
+13:17:38.586 
+    at instantiateModule (.next/server/chunks/ssr/[turbopack]_runtime.js:740:9)
+13:17:38.586 
+    at getOrInstantiateModuleFromParent (.next/server/chunks/ssr/[turbopack]_runtime.js:763:12)
+13:17:38.587 
+    at Context.esmImport [as i] (.next/server/chunks/ssr/[turbopack]_runtime.js:228:20)
+13:17:38.587 
+    at module evaluation (.next/server/chunks/ssr/[root-of-the-server]__deac41a2._.js:1:1345)
+13:17:38.587 
+    at instantiateModule (.next/server/chunks/ssr/[turbopack]_runtime.js:740:9)
+13:17:38.587 
+    at getOrInstantiateModuleFromParent (.next/server/chunks/ssr/[turbopack]_runtime.js:763:12)
+13:17:38.588 
+    at Context.esmImport [as i] (.next/server/chunks/ssr/[turbopack]_runtime.js:228:20) {
+13:17:38.588 
+  digest: '1946945738'
+13:17:38.588 
+}
+13:17:38.588 
+Export encountered an error on /_not-found/page: /_not-found, exiting the build.
+13:17:38.603 
+⨯ Next.js build worker exited with code: 1 and signal: null
+13:17:38.641 
+Error: Command "npm run build" exited with 1
+
+revisi perbaikan
+setelah depoly dan saya cek ternyata fitur pengaturan kostum nilai zakat dan nilai uang tidak berfungsi
